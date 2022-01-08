@@ -1,5 +1,7 @@
 import sheffield.*;
 
+import java.util.Locale;
+
 public class Order {
 
   //:::::::::::::Required for Task 2
@@ -8,7 +10,17 @@ public class Order {
 
   static Order askForANewThingOrdered() {
       //Fill in the body for Task2 using the keyboard declared above
-      return null; //replacing this
+      MenuItem item =
+              MenuItem.called(keyboard.readString(
+                      "What do you want? (starter , main , pudding , side , drink or nothing) \n"));
+
+      if (item == null) return null;
+      else {
+          double price = keyboard.readDouble("What is the " + item +  "'s price?");
+          return new Order(item, price); //replacing this
+      }
+
+
   }
 
   private MenuItem menuItem;
@@ -16,6 +28,8 @@ public class Order {
   public int getPriceInPence() {  return itemsPriceInPence;  }
 
   private Order (MenuItem i, double p) {
+      this.menuItem = i;
+      this.itemsPriceInPence = (int) (p * 100);
      //Fill in this for task 2 to initialize the instance variables above
   }
 
