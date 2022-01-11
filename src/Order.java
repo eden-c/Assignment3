@@ -12,11 +12,11 @@ public class Order {
       //Fill in the body for Task2 using the keyboard declared above
       MenuItem item =
               MenuItem.called(keyboard.readString(
-                      "What do you want? (starter , main , pudding , side , drink or nothing) \n"));
+                      "What do you want? (starter , main , pudding , side , drink or nothing) "));
 
       if (item == null) return null;
       else {
-          double price = keyboard.readDouble("What is the " + item +  "'s price?");
+          double price = keyboard.readDouble("What is the " + item +  "'s price? ");
           return new Order(item, price); //replacing this
       }
 
@@ -41,9 +41,16 @@ public class Order {
 
   //:::::::::::::Required for Task 4
 
-  static Order askForANewThingOrdered(String diner) {
+  static Order askForANewThingOrdered(String diner_name) {
       //Fill in the body for Task4 using the keyboard declared above
-      return null; //replacing this
+      MenuItem item =
+              MenuItem.called(keyboard.readString("What else would you like " + diner_name + "? "));
+      if (item == null) return null;
+      else {
+          double price = keyboard.readDouble("What is the " + item +  "'s price? ");
+          return new Order(item, price);
+      }
+
   }
 
 

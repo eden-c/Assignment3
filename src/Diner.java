@@ -70,7 +70,6 @@ public class Diner {
          }
          while (order != null);
 
-         screen.println(Arrays.toString(thingsOrderedByDiner));
      }
 
     static void listEveryonesOrder() {
@@ -80,7 +79,7 @@ public class Diner {
             screen.println("\t" + diner.theDinersName);
             for (Order order : diner.thingsOrderedByDiner) {
                 if (order != null) {
-                    screen.print("\t \t" + order.toString());
+                    screen.println("\t \t" + order.toString());
                 }
             }
             //Fill in the rest of the method.
@@ -104,31 +103,76 @@ public class Diner {
     //Fill this in for task 3 using screen as above for output
     //and the method getShareOfBill() below which also needs to be
     //filled in
-      double total_owed;
-      for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
-          screen.println(diner.theDinersName);
-          int diner_total_rounded_up = 0;
-          // iterates through the orders adding up each order for each diner
-          for (Order order : diner.thingsOrderedByDiner) {
-              if (order != null) {
-                  diner_total_rounded_up += Math.ceil(order.getPriceInPence()/100.0);
-              }
+      double total_owed = 0;
+      int rounded_total;
+      double [] amounts_owed = new double[Diner.allTheDiners.length];
 
+      int i = 0; // index counter for amounts owed array
+      for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
+          // iterates through the orders adding up each order for each diner
+          double unrounded_total = diner.getShareOfBill();
+          amounts_owed[i] = unrounded_total;
+          total_owed += unrounded_total;
+          i++;
           }
+
+      screen.print("The diners \t owe ");
+      screen.println(total_owed, 2);
+      screen.println("Everyone's debt rounded up is");
+      double total_owed_rounded = 0;
+
+      for (int j = 0; j < amounts_owed.length; j++){
+
+          rounded_total = (int) Math.ceil(amounts_owed[j]);
+          total_owed_rounded += rounded_total;
+          screen.print(Diner.allTheDiners[j].theDinersName);
+          screen.println(" " + rounded_total);
       }
 
-  }
+      screen.print("which is too much by ");
+      screen.println((total_owed_rounded - total_owed), 2);
+     }
+
+
 
   private double getShareOfBill() {
     //Fill this in for task 3 too replacing the line below
-
-    return 0;
+      double diner_total = 0;
+      // iterates through the orders adding up each order for each diner rounded up ()
+      for (Order order : this.thingsOrderedByDiner) {
+          if (order != null) {
+              diner_total += (double) order.getPriceInPence()/100.0;
+          }
+      }
+      return diner_total;
   }
 
 //:::::::::::::Additionally required for Task 4
 
    static void getAnotherRound() {
      //Fill this in for task 4
+
+       for (Diner diner : Diner.allTheDiners){
+
+           Order final_order = Order.askForANewThingOrdered(diner.theDinersName);
+           // check for room
+           boolean full = true;
+           for (int i = 0; i < diner.thingsOrderedByDiner.length && full; i++){
+               if (diner.thingsOrderedByDiner[i] == null){  // empty array slot
+                   diner.thingsOrderedByDiner[i] = final_order;  // adds the new order to the array
+                   full = false;  // sets the full bool to false as it had something added to it
+               }
+           }
+
+               if (full && final_order != null){
+                   screen.println("sorry maximum order reached unable to take order");
+               }
+
+
+           screen.println();
+       }
+
+
    }
 
 }
