@@ -1,6 +1,5 @@
 import sheffield.*;
 
-import java.util.Arrays;
 
 public class Diner {
 
@@ -10,14 +9,14 @@ public class Diner {
     // Takes in names of the Diners and adds them to "allTheDiners" array
     static void createPartyFor(String [] peoplesNames) {
 
-        Diner [] allTheDiners = new Diner[peoplesNames.length];
+        Diner.allTheDiners = new Diner[peoplesNames.length];
         int i = 0; // index counter
-        for (String peoplesName : peoplesNames) {  // iterates through each arg (each Diner)
-            allTheDiners[i] = new Diner(peoplesName);  // Adds the Diner to the array
+        // iterates through each arg (each Diner)
+        for (String peoplesName : peoplesNames) {
+            // Adds the Diner to the array
+            allTheDiners[i] = new Diner(peoplesName);
             i ++;  // increments the index counter
         }
-
-        Diner.allTheDiners = allTheDiners;
 
      }
 
@@ -26,7 +25,8 @@ public class Diner {
      static void listAllTheDiners() {
          //This needs a body to do task 1. Using screen declared above
          screen.println("The diners are");
-         for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
+         // iterate through the Diner objects stored in all the diners
+         for (Diner diner : Diner.allTheDiners) {
              screen.println(diner.theDinersName);
          }
      }
@@ -34,18 +34,20 @@ public class Diner {
      private String theDinersName;
      Order[] thingsOrderedByDiner;
 
-     // constructor
      private Diner (String called) {
-         this.theDinersName = called;
-         this.thingsOrderedByDiner = new Order[MAX_NUMBER_OF_THINGS_A_DINER_CAN_ORDER];
          //This needs a body to do task 1 and an addition line for task 2
+         this.theDinersName = called;
+         this.thingsOrderedByDiner =
+                 new Order[MAX_NUMBER_OF_THINGS_A_DINER_CAN_ORDER];
      }
 
      //:::::::::::::Additionally required for Task 2
 
      static void takeEveryonesOrder()  {
-         for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
-             diner.askForTheirOrder();  // propagates the thingsOrderedByDiner for the diner
+         // iterate through the Diner objects stored in all the diners
+         for (Diner diner : Diner.allTheDiners) {
+             // propagates the thingsOrderedByDiner for the diner
+             diner.askForTheirOrder();
          }
         //This needs a body to do Task 2 and should make use of askForOrder
      }
@@ -75,16 +77,10 @@ public class Diner {
     static void listEveryonesOrder() {
         //This is the second method for task 2
         screen.println("The diners' order is");
-        for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
+        // iterate through the Diner objects stored in all the diners
+        for (Diner diner : Diner.allTheDiners) {
             screen.println("\t" + diner.theDinersName);
-            for (Order order : diner.thingsOrderedByDiner) {
-                if (order != null) {
-                    screen.println("\t \t" + order.toString());
-                }
-            }
-            //Fill in the rest of the method.
-            //It should use printOrder() below
-            //Upto here
+            diner.printOrder();
             screen.println();
         }
     }
@@ -95,6 +91,18 @@ public class Diner {
      //You should use the toString method of the class order
      //without changing it to print out the details of the item ordered
      //If the diner ordered nothing print out "Nothing"
+       if (this.thingsOrderedByDiner[0] == null){
+           screen.println("Nothing");
+       }
+       else {
+           for (Order order : this.thingsOrderedByDiner) {
+               // print each of the orders
+               if (order != null) {
+                   screen.println(order.toString());
+               }
+           }
+       }
+
   }
 
   //:::::::::::::Additionally required for Task 3
@@ -103,12 +111,15 @@ public class Diner {
     //Fill this in for task 3 using screen as above for output
     //and the method getShareOfBill() below which also needs to be
     //filled in
+
+      // declaring the required variables
       double total_owed = 0;
       int rounded_total;
       double [] amounts_owed = new double[Diner.allTheDiners.length];
 
       int i = 0; // index counter for amounts owed array
-      for (Diner diner : Diner.allTheDiners) {  // iterate through the Diner objects stored in all the diners
+      // iterate through the Diner objects stored in all the diners
+      for (Diner diner : Diner.allTheDiners) {
           // iterates through the orders adding up each order for each diner
           double unrounded_total = diner.getShareOfBill();
           amounts_owed[i] = unrounded_total;
@@ -165,7 +176,8 @@ public class Diner {
            }
 
                if (full && final_order != null){
-                   screen.println("sorry maximum order reached unable to take order");
+                   screen.println("sorry maximum order reached " +
+                           "unable to take order");
                }
 
 

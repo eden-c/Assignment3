@@ -6,7 +6,6 @@ public class Task4 {
       Diner.listEveryonesOrder();
       Diner.getAnotherRound();
       Diner.listEveryonesOrder();
-      Diner.dealWithTheBill();
   }
 
 
